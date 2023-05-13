@@ -4,7 +4,7 @@ import sqlite3
 class SQLite_db:
 
     def __init__(self, db_name: str):
-        self.conn = sqlite3.connect(db_name)
+        self.conn = sqlite3.connect(db_name, check_same_thread=False)
         self.cur = self.conn.cursor()
 
     def close(self):
@@ -39,6 +39,7 @@ class SQLite_db:
             column_name string
         return boolean
         """
+        print(f"CREATE INDEX IF NOT EXISTS {table_name}_{column_name} ON {table_name}({column_name})")
         self.cur.execute(f"CREATE INDEX IF NOT EXISTS {table_name}_{column_name} ON {table_name}({column_name})")
         self.conn.commit()
         return True
